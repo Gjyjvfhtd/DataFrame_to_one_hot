@@ -21,5 +21,22 @@ def random_data_frame(): #Спрятал генератор DataFrame в фун�
     data = pd.DataFrame({'whoAmI': lst})
     return data
 
-data = random_data_frame()  #В этом блоке я загоняю все в csv файл - дальше работа будет вестись с ним
-data.to_csv('who_i_am.csv')
+#data = random_data_frame()  #В этом блоке я загоняю все в csv файл - дальше работа будет вестись с ним
+#data.to_csv('who_i_am.csv')
+
+df = pd.read_csv('who_i_am.csv')
+
+#open('result_who_i_am', 'a')
+
+res_df = {'robot':[], 'human':[]}
+
+for i in df['whoAmI']:
+    if i == 'human':
+        res_df['human'].append(bool(1))
+        res_df['robot'].append(bool(0))
+    else:
+        res_df['human'].append(bool(0))
+        res_df['robot'].append(bool(1))
+
+res_df = pd.DataFrame(res_df)
+res_df.to_csv('result_who_i_am.csv')
