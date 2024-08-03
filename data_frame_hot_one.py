@@ -30,17 +30,21 @@ def random_data_frame(): #Спрятал генератор DataFrame в фун�
 data = random_data_frame()  #В этом блоке я загоняю все в csv файл - дальше работа будет вестись с ним
 data.to_csv('who_i_am.csv')
 
-df = pd.read_csv('who_i_am.csv')   #Тут читаем,  что записали 
+# df = pd.read_csv('who_i_am.csv')   #Тут читаем,  что записали 
 
-res_df = {'robot':[], 'human':[]}  #Создаем словарь из которого дальше следаем Data Frame вида Hot One
+data_dict = dict(data)        #Тут я решил занести все знвчения Data Frame в множество, для словаря
+st = set()
+for i in data_dict['whoAmI']:
+    st.add(i)
 
-for i in df['whoAmI']:                    #Заполняем Hot One вид 
-    if i == 'human':
-        res_df['human'].append(bool(1))
-        res_df['robot'].append(bool(0))
-    else:
-        res_df['human'].append(bool(0))
-        res_df['robot'].append(bool(1))
+res_df = dict() #Создаем словарь из которого дальше следаем Data Frame вида Hot One
+for i in st:
+    res_df[i] = [bool(0)] * len(data['whoAmI'])
+j = 0
+
+for i in data['whoAmI']:          #Заполняем Hot One вид
+    res_df[i][j] = bool(1)
+    j += 1
 
 res_df = pd.DataFrame(res_df)          #Резульнат ухадит в новую табличку)
 res_df.to_csv('result_who_i_am.csv')
